@@ -1,6 +1,7 @@
 package bbtrial.nl.logicgate.ace;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +22,7 @@ public class TrialAgenda implements AgendaI{
 	private File nextFile;
 		
 	public TrialAgenda(){
-		fakeAgenda(); //TODO Creates files to use in the demo. 
+		fakeAgenda(); //added for demo 
 		newPatientList = new ArrayList<Patient>();
 		noShowPatientList = new ArrayList<Patient>();
 		bbstorage = new BBStorage(new TrialBBStorage());	
@@ -160,7 +161,7 @@ public class TrialAgenda implements AgendaI{
 		WriteFile writer = new WriteFile();
 		HashSet<String> newDoctors = new HashSet<String>();
 		for(String lString : lastStrings){
-			try {
+			try {				
 				String[] poliArray = lString.split(";");
 				String dept = poliArray[0].trim();
 				//[1] is the doctor's code, similar to drID but not necessarily unique
@@ -182,7 +183,7 @@ public class TrialAgenda implements AgendaI{
 				int rMonth = Integer.valueOf(visit.substring(3, 5));
 				int year = Integer.valueOf(visit.substring(6, 10));
 				p.setVisitDate(new RCalendar(year, rMonth, day));
-				p.setDoctorID(doctorID);
+				p.setDoctorID(doctorID);				
 				//check to ensure we've created a sensible patient
 				if(p.getVisitDate() != null){
 					if(doctors.hasDoctor(doctorID)){ //if the doctor is recognized
@@ -233,26 +234,29 @@ public class TrialAgenda implements AgendaI{
 		return true;
 	}
 	
+	/**
+	 * This code added for demo
+	 */
 	private void fakeAgenda() {
 		RCalendar date = new RCalendar("d", -1);
-		File future = new File("future" + date.getYear() + "-" + date.getZeroMonth() + "-" + date.getZeroDay() + ".txt");
+		File future = new File("NEXT2WKS_BB_INT" + date.getYear() + "-" + date.getZeroMonth() + "-" + date.getZeroDay() + ".txt");
 		RCalendar fdate = new RCalendar(date, "d", 7); // date for all future appointments in this agenda demo
 		RCalendar pdate = new RCalendar(date, "d", -7); // date for all past appointments in this agenda demo
 		RCalendar kdate = new RCalendar("d",-7); //for Kamelion. Make sure this matches the date in FakeStorage.
 		String ftext = 
-			"GER       ;STR       ;strangelove                    ;ian;CP        ;" + fdate.getYear() + "-" + fdate.getZeroMonth() + "-" + fdate.getZeroDay() + " 13:00;G              \n"
-		  + "GER       ;STR       ;strangelove                    ;rose;NP        ;" + fdate.getYear() + "-" + fdate.getZeroMonth() + "-" + fdate.getZeroDay() + " 08:00;G              \n"
-		  + "INT       ;SIR       ;sirnotappearing                ;donna;NP        ;" + fdate.getYear() + "-" + fdate.getZeroMonth() + "-" + fdate.getZeroDay() + " 08:00;G              \n"
-		  + "INT       ;WHO       ;who		                      ;barbara;CP        ;" + fdate.getYear() + "-" + fdate.getZeroMonth() + "-" + fdate.getZeroDay() + " 12:10;G              ";
+			"GER       ;STR       ;strangelove                    ;ian;CP        ;" + fdate.getZeroDay() + "-" + fdate.getZeroMonth() + "-" + fdate.getYear() + " 13:00;G              \n"
+		  + "GER       ;STR       ;strangelove                    ;rose;NP        ;" + fdate.getZeroDay() + "-" + fdate.getZeroMonth() + "-" + fdate.getYear() + " 08:00;G              \n"
+		  + "INT       ;SIR       ;sirnotappearing                ;donna;NP        ;" + fdate.getZeroDay() + "-" + fdate.getZeroMonth() + "-" + fdate.getYear() + " 08:00;G              \n"
+		  + "INT       ;WHO       ;who		                      ;barbara;CP        ;" + fdate.getZeroDay() + "-" + fdate.getZeroMonth() + "-" + fdate.getYear() + " 12:10;G              ";
 		new WriteFile().overWriteFile(future, ftext);
-		File past = new File("past" + date.getYear() + "-" + date.getZeroMonth() + "-" + date.getZeroDay() + ".txt");
+		File past = new File("LAST2WKS_BB_INT" + date.getYear() + "-" + date.getZeroMonth() + "-" + date.getZeroDay() + ".txt");
 		String ptext =
-			   "GER       ;STR    ;strangelove                  ;ian;CP        ;VC  ;" + pdate.getYear() + "-" + pdate.getZeroMonth() + "-" + pdate.getZeroDay() + " 11:30;A             \n"
-			+  "INT       ;WHO    ;who                          ;rose;NP        ;EC  ;" + pdate.getYear() + "-" + pdate.getZeroMonth() + "-" + pdate.getZeroDay() + " 10:00;A             \n"
-			+  "INT       ;WHO    ;who                          ;barbara;CP        ;    ;" + pdate.getYear() + "-" + pdate.getZeroMonth() + "-" + pdate.getZeroDay() + " 09:50;X             \n"
-			+  "INT       ;WHO    ;who                          ;kamelion;CP        ;NS  ;" + kdate.getYear() + "-" + kdate.getZeroMonth() + "-" + kdate.getZeroDay() + " 13:00;G             \n"
-			+  "INT       ;SIR    ;sirnotappearing              ;polly;CP        ;VC  ;" + pdate.getYear() + "-" + pdate.getZeroMonth() + "-" + pdate.getZeroDay() + " 16:00;A             \n"
-			+  "INT       ;WHO    ;who                          ;dodo;CP        ;VB  ;" + pdate.getYear() + "-" + pdate.getZeroMonth() + "-" + pdate.getZeroDay() + " 14:30;A             ";
+			   "GER       ;STR    ;strangelove                  ;ian;CP        ;VC  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 11:30;A             \n"
+			+  "INT       ;WHO    ;who                          ;rose;NP        ;EC  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 10:00;A             \n"
+			+  "INT       ;WHO    ;who                          ;barbara;CP        ;    ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 09:50;X             \n"
+			+  "INT       ;WHO    ;who                          ;kamelion;CP        ;NS  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 13:00;G             \n"
+			+  "INT       ;SIR    ;sirnotappearing              ;polly;CP        ;VC  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 16:00;A             \n"
+			+  "INT       ;WHO    ;who                          ;dodo;CP        ;VB  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 14:30;A             ";
 		new WriteFile().overWriteFile(past, ptext);
 		}
 	

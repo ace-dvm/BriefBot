@@ -18,6 +18,7 @@ public class QueryConnection {
 		return query;
 	}
 	
+	//This method added for demo
 	public boolean establishConnection(String testConnName){
 		conn = new FakeConnection();
 		if(testConnName.equals("storage")){

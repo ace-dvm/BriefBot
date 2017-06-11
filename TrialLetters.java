@@ -230,6 +230,7 @@ public class TrialLetters implements LettersI {
 	}
 
 	/**
+	 * Create query for N database. Building the queries this way allows us to specify letter matching criteria at the level of system, department, or doctor.
 	 * @param patient
 	 * @param plet
 	 */
@@ -242,7 +243,7 @@ public class TrialLetters implements LettersI {
 			try {
 				int indexOfCloseParen = plet.nQueryNew.lastIndexOf(")"); //get index of last close paren
 				String queryNew = plet.nQueryNew.substring(0, indexOfCloseParen);
-				queryNew += "OR specialismeID='0')"; //specialismIDs removed 
+				queryNew += " OR specialismeID='0')"; //specialismIDs removed 
 				plet.nQueryNew = queryNew;
 			} catch (StringIndexOutOfBoundsException e) {
 				// TODO Auto-generated catch block
@@ -275,6 +276,11 @@ public class TrialLetters implements LettersI {
 		return queryStem;
 	}
 	
+	/**
+	 * Create query for PB database. Building the queries this way allows us to specify letter matching criteria at the level of system, department, or doctor.
+	 * @param patient
+	 * @param plet
+	 */
 	private void createPBQueries(Patient patient, PatientLetter plet){
 		String queryStem = createPBQueryStem(patient, plet);
 		plet.pbQueryLast = queryStem;
@@ -370,7 +376,7 @@ public class TrialLetters implements LettersI {
 		}
 		//run the newLetter queries
 		if(establishConnection()){
-			for(Patient patient: patients){
+			for(Patient patient: patients){				
 				List<Map<String, Object>> nNResult = nDB.getQuery().executeQuery(pletMap.get(patient).nQueryNew);
 				if(nNResult.size()==1){//should contain 1 or 0 rows.
 						pletMap.get(patient).nResultNew = nNResult.get(0);
@@ -406,7 +412,7 @@ public class TrialLetters implements LettersI {
 	}
 	
 	private boolean establishConnection(){
-		if(nDB.establishConnection("ndb") && pbDB.establishConnection("pbdb")){
+		if(nDB.establishConnection("nDB") && pbDB.establishConnection("pbDB")){
 			return true;
 		} else { return false; }
 	}
