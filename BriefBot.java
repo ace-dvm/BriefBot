@@ -1,6 +1,7 @@
 package bbtrial.nl.logicgate.ace;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -386,9 +387,9 @@ record += "due: " + patient.getLetterDueDate() + "\n";
 	 * the patient as Active.
 	 */
 	private void checkIncompleteStoredPatients(){
-		List<Patient> storedIncomplete = bbstorage.getIncomplete();
+		List<Patient> storedIncomplete = bbstorage.getIncomplete();		
 			logMsg("Number of incomplete letters in storage: " + storedIncomplete.size() + "\n");
-		List<Patient> withAbandonedLetters = new ArrayList<Patient>();
+		List<Patient> withAbandonedLetters = new ArrayList<Patient>();		
 		for(Patient p : storedIncomplete){
 			if(isAbandoned(p.getNewLetter())){
 				p.setNewLetter(null);

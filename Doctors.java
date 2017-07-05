@@ -29,7 +29,7 @@ public class Doctors {
 
 	public Doctor getDoctorByID(String doctorID) {
 		for(Doctor doctor : doctors){
-			if(doctorID.equals(doctor.getDoctorID())){
+			if(doctorID.equals(doctor.getDoctorID())){				
 				return doctor;
 			}
 		}

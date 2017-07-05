@@ -240,23 +240,37 @@ public class TrialAgenda implements AgendaI{
 	private void fakeAgenda() {
 		RCalendar date = new RCalendar("d", -1);
 		File future = new File("NEXT2WKS_BB_INT" + date.getYear() + "-" + date.getZeroMonth() + "-" + date.getZeroDay() + ".txt");
-		RCalendar fdate = new RCalendar(date, "d", 7); // date for all future appointments in this agenda demo
+		RCalendar fdate = new RCalendar(date, "d", 6); // date for future appointments (CP eligible for reminder)
+		RCalendar fdate2 = new RCalendar(date, "d", 14); // date for future appointments (no patients eligible for reminder: appointment is too far in the future)
 		RCalendar pdate = new RCalendar(date, "d", -7); // date for all past appointments in this agenda demo
 		RCalendar kdate = new RCalendar("d",-7); //for Kamelion. Make sure this matches the date in FakeStorage.
+//ian is eligible for a reminder; the rest are not (NP never are; CP only if their future appointment is in the next 7 days)
 		String ftext = 
 			"GER       ;STR       ;strangelove                    ;ian;CP        ;" + fdate.getZeroDay() + "-" + fdate.getZeroMonth() + "-" + fdate.getYear() + " 13:00;G              \n"
 		  + "GER       ;STR       ;strangelove                    ;rose;NP        ;" + fdate.getZeroDay() + "-" + fdate.getZeroMonth() + "-" + fdate.getYear() + " 08:00;G              \n"
-		  + "INT       ;SIR       ;sirnotappearing                ;donna;NP        ;" + fdate.getZeroDay() + "-" + fdate.getZeroMonth() + "-" + fdate.getYear() + " 08:00;G              \n"
-		  + "INT       ;WHO       ;who		                      ;barbara;CP        ;" + fdate.getZeroDay() + "-" + fdate.getZeroMonth() + "-" + fdate.getYear() + " 12:10;G              ";
+		  + "INT       ;SIR       ;sirnotappearing                ;donna;NP        ;" + fdate2.getZeroDay() + "-" + fdate2.getZeroMonth() + "-" + fdate2.getYear() + " 08:00;G              \n"
+		  + "INT       ;WHO       ;who		                      ;barbara;CP        ;" + fdate2.getZeroDay() + "-" + fdate2.getZeroMonth() + "-" + fdate2.getYear() + " 12:10;G              ";
 		new WriteFile().overWriteFile(future, ftext);
 		File past = new File("LAST2WKS_BB_INT" + date.getYear() + "-" + date.getZeroMonth() + "-" + date.getZeroDay() + ".txt");
+//Steven is a CP who has no prior letter (gets reminder)
+//Martha is an NP who has no letter (will get reminder after 60d)
+//Amy is an NP who has a letter (no reminder)
+//Rory is an NP who has a letter, but it is too old (will get reminder after 60d)
+//kama was in bbstorage already but is now listed as a no-show (no reminder)
+//dodo is a CP who has a prior letter, but it is too old
+//jamie is a CP who has a prior letter (no reminder)
+//liz is a CP who is already in bbstorage but visited again
 		String ptext =
-			   "GER       ;STR    ;strangelove                  ;ian;CP        ;VC  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 11:30;A             \n"
-			+  "INT       ;WHO    ;who                          ;rose;NP        ;EC  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 10:00;A             \n"
-			+  "INT       ;WHO    ;who                          ;barbara;CP        ;    ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 09:50;X             \n"
-			+  "INT       ;WHO    ;who                          ;kamelion;CP        ;NS  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 13:00;G             \n"
+			   "GER       ;STR    ;strangelove                  ;steven;CP        ;VC  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 11:30;A             \n"
+			+  "INT       ;WHO    ;who                          ;martha;NP        ;EC  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 10:00;A             \n"
+			+  "INT       ;WHO    ;who                          ;amy;NP        ;EC  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 10:00;A             \n"
+			+  "INT       ;WHO    ;who                          ;rory;NP        ;EC  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 10:00;A             \n"
+			+  "INT       ;WHO    ;who                          ;kama;CP        ;NS  ;" + kdate.getZeroDay() + "-" + kdate.getZeroMonth() + "-" + kdate.getYear() + " 13:00;G             \n"
 			+  "INT       ;SIR    ;sirnotappearing              ;polly;CP        ;VC  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 16:00;A             \n"
-			+  "INT       ;WHO    ;who                          ;dodo;CP        ;VB  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 14:30;A             ";
+			+  "INT       ;WHO    ;who                          ;dodo;CP        ;VB  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 14:30;A             \n"
+			+  "INT       ;WHO    ;who                          ;jamie;CP        ;VB  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 14:30;A             \n"
+			+  "INT       ;WHO    ;who                          ;liz;CP        ;VB  ;" + pdate.getZeroDay() + "-" + pdate.getZeroMonth() + "-" + pdate.getYear() + " 14:30;A             ";
+
 		new WriteFile().overWriteFile(past, ptext);
 		}
 	

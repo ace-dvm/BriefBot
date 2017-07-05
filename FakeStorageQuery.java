@@ -382,7 +382,7 @@ public class FakeStorageQuery extends Query {
 		bbp2.put("newLetter", null);
 		bbp.add(bbp2);
 		Map<String, Object> bbp3 = new LinkedHashMap<String, Object>();
-		bbp3.put("PID", "kamelion"); //kamelion was scheduled for an appointment but is now listed as a no-show
+		bbp3.put("PID", "kama"); //kama was scheduled for an appointment but is now listed as a no-show
 		bbp3.put("pk", "3");
 		bbp3.put("status", "active");
 		bbp3.put("dept", "INT");
@@ -444,7 +444,7 @@ public class FakeStorageQuery extends Query {
 		bbl1.put("dept", "INT");
 		bbl1.put("author", "who");
 		bbl1.put("lastChangeDate", new RCalendar("m",-3).toTimestamp());
-		bbl1.put("brief_id", "p1984"); //this letter is from the PB database
+		bbl1.put("brief_id", "n1984");
 		bbl.add(bbl1);
 		Map<String, Object> bbp7 = new LinkedHashMap<String, Object>();
 		bbp7.put("PID", "ray"); //ray is a no-show archived in the system. Ray is due for a letter but didn't show up for the appointment, so no letter can be sent.
@@ -483,13 +483,20 @@ public class FakeStorageQuery extends Query {
 		bbl2.put("dept", "INT");
 		bbl2.put("author", "who");
 		bbl2.put("lastChangeDate", new RCalendar("d",-100).toTimestamp());
-		bbl2.put("brief_id", "p2012");
+		bbl2.put("brief_id", "n2012");
 		bbl.add(bbl2);
-		//TODO add the following patients and corresponding letters (to FakeNQuery):
-		//an NP with a new letter
-		//an NP with a letter that is too old
-		//a CP with a new letter
-		//a CP with a lastLetter who is not due
-		//a CP with a lastLetter who is due
+		Map<String, Object> bbp9 = new LinkedHashMap<String, Object>();
+		bbp9.put("PID", "liz");
+		bbp9.put("pk", "8");
+		bbp9.put("status", "active");
+		bbp9.put("dept", "INT");
+		bbp9.put("category", "cp");
+		bbp9.put("visitDate", new RCalendar("d",-100).toTimestamp());
+		bbp9.put("doctorID", "who");
+		bbp9.put("letterDueDate", new RCalendar("d",-100).toTimestamp());
+		bbp9.put("firstPossReminder", new RCalendar("d",-100).toTimestamp());
+		bbp9.put("lastLetter", null);
+		bbp9.put("newLetter", null);
+		bbp.add(bbp9);
 	}
 }
